@@ -1,6 +1,11 @@
 <template>
   <div>
-<!--     <b-jumbotron v-bind:header="headerTitle" v-bind:lead="leadMsg" >
+    <h1 class="text-center">{{$ml.with('VueJS').get('landingPageWelcome')}}</h1>
+    <h4 class="text-center">Condominioaldia tiene una variedad de caracteristicas que lo hacen ideal para todo relacionado a gestion de condominios</h4>
+    <condo-footer></condo-footer>
+<!--     <b-jumbotron v-bind:header="headerTitle" v-bind:lead="leadMsg" 
+    
+
       <p>{{msg}}</p>
       <b-btn variant="primary" href="#">¡Registrate ahora!</b-btn>
     </b-jumbotron> -->
@@ -11,13 +16,12 @@
 import Vue from 'vue';
 import bJumbotron from 'bootstrap-vue/es/components/jumbotron/jumbotron';
 import carousel from '../../components/carousel/carousel.vue';
+import footer from '@/components/footer/footer.vue';
 Vue.component('carousel-landing', carousel);
 Vue.component('b-jumbotron', bJumbotron);
+Vue.component('condo-footer', footer);
+
 export default {
-  //name: 'HelloWorld',
-  // props: {
-  //   msg: String
-  // },
   data: function() {
        return {
           headerTitle: 'Administrador de condominios',

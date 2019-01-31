@@ -1,4 +1,5 @@
 <template>
+  <div id="navBar">
   <b-navbar toggleable="md" type="dark" variant="dark" sticky>
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -13,14 +14,18 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav class="navLinkContainer">
-        <b-nav-item href="#"><router-link to="/"><span v-text="$ml.get('HomeLink')" /></router-link></b-nav-item>
-        <b-nav-item class="anonymousLink" v-if="!userLoggedIn" href="#"><router-link to="/about">Registro</router-link></b-nav-item>
-        <b-nav-item class="anonymousLink" v-if="!userLoggedIn" href="#"><router-link to="/careers">Ingresar</router-link></b-nav-item>
-        <b-nav-item class="anonymousLink" v-if="!userLoggedIn" href="#"><router-link to="/careers">Preguntas</router-link></b-nav-item>
+        <b-nav-item href="#"><router-link to="/"><span v-text="$ml.with('VueJS').get('home')" /></router-link></b-nav-item>
+        <b-nav-item class="anonymousLink" v-if="!userData.loggedIn" href="#"><router-link to="/register"><span v-text="$ml.with('VueJS').get('register')" /></router-link></b-nav-item>
+        <b-nav-item class="anonymousLink" v-if="!userData.loggedIn" href="#"><router-link to="/login"><span v-text="$ml.with('VueJS').get('login')" /></router-link></b-nav-item>
+        <b-nav-item class="anonymousLink" v-if="!userData.loggedIn" href="#"><router-link to="/faq"><span v-text="$ml.with('VueJS').get('faq')" /></router-link></b-nav-item>
 
         <!--condos-->
-        <b-nav-item class="condoLink" v-if="userIsCondo" href="#"><router-link to="/inmuebles">Inmuebles</router-link></b-nav-item>
-        <b-nav-item class="condoLink" v-if="userIsCondo" href="#"><router-link to="/accounts">Cuentas</router-link></b-nav-item>
+        <b-nav-item class="condoLink" v-if="canViewInmuebles" href="#"><router-link to="/properties"><span v-text="$ml.with('VueJS').get('properties')" /></router-link></b-nav-item>
+        <b-nav-item class="condoLink" v-if="canViewInmuebles" href="#"><router-link to="/accounts"><span v-text="$ml.with('VueJS').get('accounts')" /></router-link></b-nav-item>
+        <b-nav-item class="condoLink" v-if="userData.role=='condo'" href="#"><router-link to="/invoices"><span v-text="$ml.with('VueJS').get('invoices')" /></router-link></b-nav-item>
+
+        <!--resident/rentee-->
+        <b-nav-item class="condoLink" v-if="canViewPayments" href="#"><router-link to="/payments"><span v-text="$ml.with('VueJS').get('payments')" /></router-link></b-nav-item>
         <!-- <b-nav-item class="condoLink" v-if="userIsCondo" href="#"><router-link to="/inmuebles">Cuentas</router-link></b-nav-item> -->
         <!--owners-->
       </b-navbar-nav>
@@ -33,46 +38,60 @@
           <b-button size="sm" class="my-2 my-sm-0" type="submit">Buscar</b-button>
         </b-nav-form> -->
 
-        <b-nav-item-dropdown text="Idioma" right>
-          <b-dropdown-item href="#">EN</b-dropdown-item>
-          <b-dropdown-item href="#">ES</b-dropdown-item>
-          <b-dropdown-item href="#">PT</b-dropdown-item>
-          <b-dropdown-item href="#">FA</b-dropdown-item>
+        <b-nav-item-dropdown :text="$ml.with('VueJS').get('lang')" right>
+          <b-dropdown-item href="#"
+            v-for="lang in $ml.list"
+            :key="lang"
+            v-text="lang"
+            @click="$ml.change(lang)"
+          >
+          EN</b-dropdown-item>
         </b-nav-item-dropdown>
-<!-- 
-        <b-nav-item-dropdown right> -->
-          <!-- Using button-content slot -->
-<!--           <template slot="button-content">
-            <em>User</em>
+
+        <b-nav-item-dropdown right v-if="userData.loggedIn"> 
+            <!-- Using button-content slot -->
+          <template  slot="button-content">
+            <em ><v-icon name="user" scale="1.5"/> {{userData.first_name}}</em>
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Signout</b-dropdown-item>
-        </b-nav-item-dropdown> -->
+          <b-dropdown-item href="#" v-on:click="goToProfile"><span v-text="$ml.with('VueJS').get('profile')" /></b-dropdown-item>
+          <b-dropdown-item href="#"><span v-text="$ml.get('signOut')" /></b-dropdown-item>
+        </b-nav-item-dropdown> 
       </b-navbar-nav>
 
     </b-collapse>
-  </b-navbar>  
+  </b-navbar>    
+  </div>
+
 </template>
 <script>
-  import { MLBuilder } from 'vue-multilanguage';
+  //import  '@/ml'
+  //import { MLBuilder } from 'vue-multilanguage';
+  //import 'vue-awesome/icons/User';
+  import Icon from 'vue-awesome/components/Icon';
+  import 'vue-awesome/icons/user';
   export default {
-    //name: 'HelloWorld',
-    props: {
-      src: String
+    name: 'navBar',
+    components:{
+      'v-icon': Icon
     },
-    data: function() {
-         return {
-            //userIsResident: false,
-            //userIsCondo:true,
-            userLoggedIn: false,
-          }
-      },
+    methods: {
+      goToProfile () {
+        this.$router.push('/profile')
+      }
+    },
+      props: {
+      userData: Object
+    },
     computed: {
-      mlHomeLink () {
-        return new MLBuilder('home'); //.with('f', 5).with('l', 406)
+      canViewInmuebles () {
+        let userIsCondo = (this.userData.role=='condo');
+        let userIsResident = (this.userData.role=='resident');
+        return userIsCondo || userIsResident;
       },
-      mlRegisterLink () {
-        return new MLBuilder('register'); //.with('f', 5).with('l', 406)
+      canViewPayments () {
+        let userIsRentee = (this.userData.role=='rentee');
+        let userIsResident = (this.userData.role=='resident');
+        return userIsRentee || userIsResident;
       }
     }
   }
