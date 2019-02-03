@@ -20,7 +20,6 @@ import profile from './pages/profile/profile.vue';
 import properties from './pages/properties/properties.vue';
 import register from './pages/register/register.vue';
 
-//import careers from './pages/careers.vue';
 
 //components imports
 import navBar from '@/components/navBar/navBar.vue';
@@ -35,6 +34,10 @@ Vue.use(VueRouter)
 
 Vue.component('nav-bar', navBar);
 
+
+//validation global imports
+//import Vuelidate from 'vuelidate';
+//Vue.use(Vuelidate);
 
 // 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
 // and then call `Vue.use(VueRouter)`.

@@ -11,11 +11,13 @@ export default new MLCreate({
   languages: [
     new MLanguage('English').create({
       //title: 'Oi {0}!',
+      confirm:'Confirm',
       login: 'Login',
       home:'Home',
       register:'Register',
       faq: 'Faq',
       lang:'Language',
+      langShort:'en',
       accounts:'Accounts',
       properties: 'Properties',
       profile:'Profile',
@@ -32,15 +34,28 @@ export default new MLCreate({
       alreadyAcc:'Already have an account?',
       pwdRecovery: 'Password Recovery',
       recover: 'Recover',
-      landingPageWelcome: 'Your Condo a click away'
+      landingPageWelcome: 'Your Condo, a click away',
+      getStarted: 'Get started',
+      legalName:'Legal name',
+      terms:'I accept the terms and use',
+      fiscalProof : 'Fiscal number proof',
+      landingFeature1: 'Manage your Condo',
+      landingFeature2: 'Register your payments',
+      landingFeature3: 'Oversee finances',
+      landingFeature4:'Save the planet',
+      socialMedia: 'Get connected with us on social networks!',
+      help:'Help',
+      name:'name'
     }),
     new MLanguage('Español').create({
       //title: 'Hello {0}!',
+      confirm:'Confirmar',
       login: 'Ingresar',
       home:'Inicio',
       register:'Registro',
       faq: 'Preguntas',
       lang:'Idioma',
+      langShort:'es',
       accounts:'Cuentas',
       properties: 'Inmuebles',
       profile:'Perfil',
@@ -57,7 +72,18 @@ export default new MLCreate({
       alreadyAcc:'¿Ya posees una cuenta?',
       pwdRecovery: 'Recuperacion de contraseña',
       recover: 'Recuperar',
-      landingPageWelcome: 'Tu condominio a un click de distancia'
+      landingPageWelcome: 'Tu condominio, a un click de distancia',
+      getStarted: 'Empezar',
+      legalName:'Razon Social',
+      terms:'Acepto los terminos de uso',
+      fiscalProof : 'Comprobante fiscal',
+      landingFeature1: 'Administre su condominio',
+      landingFeature2: 'Efectue pagos',
+      landingFeature3: 'Siga las finanzas',
+      landingFeature4:'Salva al planeta',
+      socialMedia:'¡Conactate por las redes sociales!',
+      help:'Ayuda',
+      name:'nombre'
     }),
  
     // new MLanguage('portuguese').create({

@@ -4,13 +4,15 @@
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-    <b-navbar-brand href="#">
-      <div style="height:80px">
-          <b-img :src="require('../../assets/static/brand.png')" />
-      </div>
-      
-    </b-navbar-brand>
-
+    
+      <b-navbar-brand href="#">
+        <router-link to="/">
+        <div style="height:80px">
+            <b-img :src="require('../../assets/static/brand.png')" />
+        </div>
+        </router-link>
+      </b-navbar-brand>
+    
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav class="navLinkContainer">

@@ -2,28 +2,33 @@
 <!-- Footer -->
 <footer color="unique-color-dark" class="page-footer font-small pt-0">
   <div style="backgroundColor: #938F71">
+
     <b-container class="text-left">
       <b-row class="py-4 d-flex align-items-center">
         <b-col md="6" lg="5" class="text-center text-md-left mb-4 mb-md-0">
-          <h6 class="mb-0 white-text">Get connected with us on social networks!</h6>
+          <h6 class="mb-0 text-white">{{$ml.with('VueJS').get('socialMedia')}}</h6>
         </b-col>
         <b-col md="6" lg="7" class="text-center text-md-right">
-          <a class="fb-ic ml-0"><i class="fab fa-facebook white-text mr-lg-4"> </i></a>
-          <a class="tw-ic"><i class="fab fa-twitter white-text mr-lg-4"> </i></a>
-          <a class="gplus-ic"><i class="fab fa-google-plus white-text mr-lg-4"> </i></a>
-          <a class="li-ic"><i class="fab fa-linkedin-in white-text mr-lg-4"> </i></a>
-          <a class="ins-ic"><i class="fab fa-instagram white-text mr-lg-4"> </i></a>
+          <a class="fb-ic ml-0">
+            <v-icon name="brands/facebook" class="text-white mr-lg-4"/>
+          </a>
+          <a class="tw-ic"><v-icon name="brands/twitter" class="text-white mr-lg-4"/></a>
+          <a class="gplus-ic"><v-icon name="brands/google-plus" class="text-white mr-lg-4"/></a>
+          <a class="li-ic">
+            <v-icon name="brands/linkedin-in" class="text-white mr-lg-4"/>
+          </a>
+          <a><v-icon name="brands/instagram" class="text-white mr-lg-4"/></a>
         </b-col>
       </b-row>
     </b-container>
+
   </div>
   <b-container class="mt-5 mb-4 text-center text-md-left">
     <b-row class="mt-3">
       <b-col md="3" lg="4" xl="3" class="mb-4">
         <h6 class="text-uppercase font-weight-bold"><strong>Fractal Software, Corp.</strong></h6>
         <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
-        <p>Here you can use rows and columns here to organize your footer content. Lorem ipsum dolor sit
-          amet, consectetur adipisicing elit.</p>
+        <p>A la vanguardia de la tecnologia.</p>
       </b-col>
       <b-col md="2" lg="2" xl="2" class="mb-4">
         <h6 class="text-uppercase font-weight-bold"><strong>Products</strong></h6>
@@ -39,15 +44,20 @@
         <p><a href="#!">Your Account</a></p>
         <p><a href="#!">Become an Affiliate</a></p>
         <p><a href="#!">Shipping Rates</a></p>
-        <p><a href="#!">Help</a></p>
+        <p><a href="#!">{{$ml.with('VueJS').get('help')}}</a></p>
       </b-col>
       <b-col md="4" lg="3" xl="3" class="mb-4">
         <h6 class="text-uppercase font-weight-bold"><strong>{{$ml.with('VueJS').get('contact')}}</strong></h6>
         <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
-        <p><i class="fas fa-home mr-3"></i> Miami, FL 33196, US</p>
-        <p><i class="fas fa-envelope mr-3"></i> contact@condominioaldia.net</p>
-        <p><i class="fas fa-phone mr-3"></i> + 01 786 401 9338</p>
-        <p><i class="fas fa-print mr-3"></i> + 01 786 401 9338</p>
+        <p>
+          <v-icon name="home" class="mr-3"/>Miami, FL 33196, US
+        </p>
+        <p>
+          <v-icon name="envelope" class="mr-3"/>
+          contact@condominioaldia.net
+        </p>
+        <p><v-icon name="phone" class="mr-3"/> + 01 786 401 9338</p>
+        <p><v-icon name="print" class="mr-3"/> + 01 786 401 9338</p>
       </b-col>
     </b-row>
   </b-container>
@@ -59,3 +69,22 @@
 </footer>
 
 </template>
+<script>
+
+import 'vue-awesome/icons/home';
+import 'vue-awesome/icons/envelope';
+import 'vue-awesome/icons/phone';
+import 'vue-awesome/icons/print';
+import 'vue-awesome/icons/brands/facebook';
+import 'vue-awesome/icons/brands/twitter';
+import 'vue-awesome/icons/brands/linkedin-in';
+import 'vue-awesome/icons/brands/google-plus';
+import 'vue-awesome/icons/brands/instagram';
+import Icon from 'vue-awesome/components/Icon';
+  export default {
+    name: 'navBar',
+    components:{
+      'v-icon': Icon
+    },
+  }
+</script>

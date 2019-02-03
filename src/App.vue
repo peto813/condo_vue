@@ -1,8 +1,12 @@
 <template>
 <div id="app">
-<nav-bar :user-data="userData"></nav-bar>
-  <router-view></router-view>
-  
+  <nav-bar :user-data="userData"></nav-bar>
+  <transition
+          name="fade"
+          mode="out-in"
+        >
+    <router-view class="pt-4"></router-view>
+  </transition>
 </div>
 </template>
 <script>
@@ -20,3 +24,16 @@
       }
   }
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+</style>
