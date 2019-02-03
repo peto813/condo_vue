@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- <h1>{{$v.form.id_proof}}</h1> -->
         <h2>{{$ml.with('VueJS').get('signUp')}}</h2>
         <form @submit.prevent="submit">
             <b-form-group> 
@@ -10,18 +11,7 @@
                 </b-form-invalid-feedback>
             </b-form-group>
 
-            
-
-            <b-form-group> 
-                <label for="email" class="sr-only"><span v-text="$ml.with('VueJS').get('email')"></span></label>
-                <b-form-input @change="$v.form.email.$touch()" :state="$v.form.email.$dirty ? !$v.form.email.$error : null" :placeholder="$ml.with('VueJS').get('email')" type="text" v-model="form.email" name="email" />
-                <b-form-invalid-feedback  v-if="$v.form.email.$dirty&&$v.form.email.$invalid">
-                    <div class="error" v-if="!$v.form.email.required">Enter Email</div>
-                    <div class="error" v-if="!$v.form.email.email">Email address error</div>
-                </b-form-invalid-feedback>
-            </b-form-group>
-
-
+            <email-field :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
 
             <b-form-group> 
                 <label for="password1" class="sr-only">Password</label>
@@ -31,9 +21,6 @@
                     <div class="error" v-if="!$v.form.password1.minLength">Al menos 8 caracteres</div>
                 </b-form-invalid-feedback>
             </b-form-group>
-
-
-
             
             <b-form-group> 
                 <label for="password2" class="sr-only">Password</label>
@@ -46,47 +33,71 @@
 
 
 
-    <b-form-group>
-        <b-form-file :lang="lang" accept=".jpg, .png, .gif" v-model="form.id_proof"  :state="Boolean(form.id_proof) ? Boolean(form.id_proof) : null" :placeholder="$ml.with('VueJS').get('fiscalProof')"></b-form-file>
-            <b-form-invalid-feedback >
-                <div class="error" v-if="!$v.form.id_proof.required">Cargue un comprobante</div>
-            </b-form-invalid-feedback>
-    </b-form-group>
 
-    <b-form-group>
-        <b-form-checkbox 
-            id="terms"
-            v-model="form.terms"
-            name="terms"
-            @change="$v.form.terms.$touch()"
-            :state="$v.form.terms.$dirty?  $v.form.terms.accepted : null"
-            >
-          {{$ml.with('VueJS').get('terms')}}
-        </b-form-checkbox>
 
-   
-        <div><code class="error" v-if="!$v.form.terms.accepted&&$v.form.terms.$dirty">Acepte los terminos</code></div>
-   
-    </b-form-group>
+            <b-form-group>
+                <b-form-file
+                    :lang="lang"
+                    accept=".jpg, .png, .gif"
+                    v-model="form.id_proof" 
+                    :state="$v.form.id_proof.$dirty ? !$v.form.id_proof.$invalid : null"
+                    :placeholder="$ml.with('VueJS').get('fiscalProof')"
+                    @change="onFileChange"
+                    >
+                </b-form-file>
+                <div v-if="$v.form.id_proof.$invalid">
+                    <div v-if="$v.form.id_proof.required"><code><strong></strong>tipo de archivo no aceptable</code></div>
+                    <!-- <div v-if="$v.form.id_proof.filesValid"><code><strong></strong></code>tipo de archivo errado</div>  -->
+                    
+                </div>
+                <!-- <b-form-invalid-feedback>
+                    <div class="error" v-if="!$v.form.id_proof.required">Cargue un comprobante</div>
+                </b-form-invalid-feedback> -->
+            </b-form-group>
 
-    <b-form-group>
-        <button class="btn btn-primary" :disabled="$v.form.$invalid">{{$ml.with('VueJS').get('createAcc')}}</button>
-        <router-link to="/login" class="btn btn-link">{{$ml.with('VueJS').get('alreadyAcc')}}</router-link>
-    </b-form-group>
+
+
+
+
+
+            <b-form-group>
+                <b-form-checkbox 
+                    id="terms"
+                    v-model="form.terms"
+                    name="terms"
+                    @change="$v.form.terms.$touch()"
+                    :state="$v.form.terms.$dirty?  $v.form.terms.accepted : null"
+                    >
+                {{$ml.with('VueJS').get('terms')}}
+                </b-form-checkbox>
+                <div><code class="error" v-if="!$v.form.terms.accepted&&$v.form.terms.$dirty">Acepte los terminos</code></div>
+            </b-form-group>
+
+            <b-form-group>
+                <button class="btn btn-primary" :disabled="$v.form.$invalid">{{$ml.with('VueJS').get('createAcc')}}</button>
+                <router-link to="/login" class="btn btn-link">{{$ml.with('VueJS').get('alreadyAcc')}}</router-link>
+            </b-form-group>
 
         </form>
     </div>
 </template>
 
 <script>
-import 'es6-promise/auto';
-
+import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
+import emailField from '@/components/emailField/emailField.vue';
 import formMixin from '@/mixins/form';
 
+// const filesValid = function(param){
+//     console.log(param)
+//     return false;
+// }
 
-import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
-//import { mapState, mapActions } from 'vuex';
-//import { MLBuilder } from 'vue-multilanguage';
+
+const filesValid = (value) => {
+    let allowedTypes= ['image/jpeg', 'image/png', 'image/gif']
+    return  value ? allowedTypes.indexOf(value.type)>=0 : false
+}
+
 export default {
     mixins:
         [formMixin]
@@ -94,34 +105,30 @@ export default {
     props:{
         lang:String
     },
+    components:{
+        'email-field':emailField
+    },
     data () {
         return {
             form:{
                 name:'',
-                email: '',
                 password1: '',
                 password2: '',
-                //submitted: false,
+                email: '',
                 id_proof: null,
-                completeName:'',
                 terms: undefined,
                 submitStatus:undefined
             }
         }
     },
-    computed: {
-       // ...mapState('account', ['status'])
+    // computed: {
+    //    // ...mapState('account', ['status'])
 
-    },
+    // },
 
   validations: {
       form:{
             name: {
-                required,
-                //minLength: minLength(4)
-            },
-            email:{
-                email,
                 required
             },
             password2: {
@@ -132,11 +139,16 @@ export default {
                 minLength: minLength(8)
             },
             id_proof:{
-                required
+                required,
+                filesValid
             },
             terms:{
                 accepted: sameAs(()=>true)
 
+            },
+            email:{
+                required,
+                email
             }
       }
 
@@ -146,19 +158,31 @@ export default {
     //     this.logout();
     // },
     methods: {
+        onChangeEmail (value) {
+            this.form.email = value;
+            this.$v.form.email.$touch()
+        },
+        onFileChange(e) {
+            this.$v.form.id_proof.$touch();
+            let files = e.target.files || e.dataTransfer.files;
+            console.log(files)
+            // if (!files.length)
+            //     return;
+            // this.createImage(files[0]);
+        },
         //...mapActions('account', ['login', 'logout']),
         submit() {
-          console.log(this.form)
+          //console.log(this.form)
           //this.v$.$touch();
-          if (this.$v.form.$invalid) {
-            this.submitStatus = 'ERROR'
-          } else {
-            // do your submit logic here
-            this.submitStatus = 'PENDING'
-            setTimeout(() => {
-              this.submitStatus = 'OK'
-            }, 500)
-          }
+        //   if (this.$v.form.$invalid) {
+        //     this.submitStatus = 'ERROR'
+        //   } else {
+        //     // do your submit logic here
+        //     this.submitStatus = 'PENDING'
+        //     setTimeout(() => {
+        //       this.submitStatus = 'OK'
+        //     }, 500)
+        //   }
         }
     }
 };

@@ -1,32 +1,39 @@
 <template>
     <div>
         <h2>{{$ml.with('VueJS').get('pwdRecovery')}}</h2>
-        <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="submit">
+            <email-field :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
             <div class="form-group">
-                <label for="username" class="sr-only"><span v-text="$ml.with('VueJS').get('email')"></span></label>
-                <input :placeholder="$ml.with('VueJS').get('email')" type="text" v-model="username" name="username" class="form-control" :class="{ 'is-invalid': submitted && !username }" />
-                <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" >{{$ml.with('VueJS').get('recover')}}</button><!--:disabled="status.loggingIn"-->
-<!--                 
-                <img v-show="status.loggingIn" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+                <button class="btn btn-primary" :disabled="$v.form.$invalid">{{$ml.with('VueJS').get('recover')}}</button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-import 'es6-promise/auto';
-//import { mapState, mapActions } from 'vuex';
-//import { MLBuilder } from 'vue-multilanguage';
+import { required, email } from "vuelidate/lib/validators";
+import emailField from '@/components/emailField/emailField.vue';
+import formMixin from '@/mixins/form';
+
 export default {
+    mixins:[formMixin],
+    components:{
+        'email-field':emailField
+    },
     data () {
         return {
-            username: '',
-            password: '',
-            submitted: false
+            form:{
+                email: ''
+            }
         }
+    },
+  validations: {
+      form:{
+            email:{
+                email,
+                required
+            }
+      }
     },
     computed: {
        // ...mapState('account', ['status'])
@@ -36,6 +43,22 @@ export default {
     //     this.logout();
     // },
     methods: {
+        onChangeEmail (value) {
+            this.form.email = value;
+            this.$v.form.email.$touch()
+        },
+        submit() {
+          //this.v$.$touch();
+        //   if (this.$v.form.$invalid) {
+        //     this.submitStatus = 'ERROR'
+        //   } else {
+        //     // do your submit logic here
+        //     this.submitStatus = 'PENDING'
+        //     setTimeout(() => {
+        //       this.submitStatus = 'OK'
+        //     }, 500)
+        //   }
+        }
         //...mapActions('account', ['login', 'logout']),
         // handleSubmit (e) {
         //     this.submitted = true;
