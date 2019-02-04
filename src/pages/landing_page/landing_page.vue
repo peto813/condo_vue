@@ -10,11 +10,8 @@
         <b-col cols="12" sm="auto" class="mb-5">
 
       <b-form @submit.prevent="handleSubmit" inline>
-              <label for="username" class="sr-only"><span v-text="$ml.with('VueJS').get('username')"></span></label>
-              <b-form-input :placeholder="$ml.with('VueJS').get('email')" type="text" v-model="username" name="username" size="lg" :class="{ 'is-invalid': submitted && !username }" />
-              <div v-show="submitted && !username" class="invalid-feedback">Username is required</div>
-
-          <b-button size="lg" variant="primary" class="ml-2">{{$ml.with('VueJS').get('getStarted')}}</b-button>
+          <email-field size="lg" :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
+          <b-button id ="regButton" size="lg" variant="primary" class="ml-2">{{$ml.with('VueJS').get('getStarted')}}</b-button>
       </b-form>
 
         </b-col>
@@ -71,7 +68,7 @@
 
       <b-col cols="12" lg="9" xl="7" class="mb-4" >
         <b-row class="mt-3">
-          <b-col col="12">
+          <b-col cols="12">
             <div><h3>Showcase some screen shots of the app</h3><p>Mobile phone screenshots as well</p></div>
             <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p> 
           </b-col>
@@ -80,13 +77,7 @@
     </b-row>
   </b-container>
     <condo-footer></condo-footer>
-<!--     <b-jumbotron v-bind:header="headerTitle" v-bind:lead="leadMsg" 
-    
 
-      <p>{{msg}}</p>
-      <b-btn variant="primary" href="#">¡Registrate ahora!</b-btn>
-    </b-jumbotron> -->
-<!--     <carousel-landing></carousel-landing>    -->
   </div>
 </template>
 <script>
@@ -102,24 +93,78 @@ import 'vue-awesome/icons/recycle';
 import 'vue-awesome/icons/university';
 import 'vue-awesome/icons/money-bill';
 import 'vue-awesome/icons/book';
+import emailField from '@/components/emailField/emailField.vue';
+import formMixin from '@/mixins/form';
+import { required, email } from "vuelidate/lib/validators";
 
 
 import Icon from 'vue-awesome/components/Icon';
 export default {
+    mixins:[formMixin],
     components:{
-      'v-icon': Icon
+      'v-icon': Icon,
+      'email-field':emailField
     },
   data: function() {
        return {
-          headerTitle: 'Administrador de condominios',
-          leadMsg :'Gestion y consulta',
-          msg: 'Tu informacion a la mano'
+          form:{
+            email:''
+          }
         }
+    },
+  validations: {
+      form:{
+            email:{
+                email,
+                required
+            }
+      }
+    },
+    methods: {
+        onChangeEmail (value) {
+            this.form.email = value;
+            this.$v.form.email.$touch()
+        },
+        submit() {
+          //this.v$.$touch();
+        //   if (this.$v.form.$invalid) {
+        //     this.submitStatus = 'ERROR'
+        //   } else {
+        //     // do your submit logic here
+        //     this.submitStatus = 'PENDING'
+        //     setTimeout(() => {
+        //       this.submitStatus = 'OK'
+        //     }, 500)
+        //   }
+        }
+        //...mapActions('account', ['login', 'logout']),
+        // handleSubmit (e) {
+        //     this.submitted = true;
+        //     const { username, password } = this;
+        //     if (username && password) {
+        //         this.login({ username, password })
+        //     }
+        // }
     }
 }
 </script>
 
-<style scoped>
+<style>
+@media only screen and (min-width: 495px) {
+  #regButton{
+    position: absolute;
+      top: 1px;
+      left: 380px;
+
+  }
+}
+/* #regButton{
+  position: absolute;
+    top: 1px;
+    left: 380px;
+
+} */
+
 h3 {
   margin: 40px 0 0;
 }

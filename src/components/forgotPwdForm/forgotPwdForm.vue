@@ -35,13 +35,6 @@ export default {
             }
       }
     },
-    computed: {
-       // ...mapState('account', ['status'])
-    },
-    // created () {
-    //     // reset login status
-    //     this.logout();
-    // },
     methods: {
         onChangeEmail (value) {
             this.form.email = value;

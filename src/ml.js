@@ -10,7 +10,7 @@ export default new MLCreate({
   save: process.env.NODE_ENV === 'production',
   languages: [
     new MLanguage('English').create({
-      //title: 'Oi {0}!',
+      oldPwd: 'Old Password',
       confirm:'Confirm',
       login: 'Login',
       home:'Home',
@@ -45,10 +45,12 @@ export default new MLCreate({
       landingFeature4:'Save the planet',
       socialMedia: 'Get connected with us on social networks!',
       help:'Help',
-      name:'name'
+      name:'name',
+      pwdChange:'Password Change',
+      change:'Change'
     }),
     new MLanguage('Español').create({
-      //title: 'Hello {0}!',
+      oldPwd: 'Contraseña anterior',
       confirm:'Confirmar',
       login: 'Ingresar',
       home:'Inicio',
@@ -83,7 +85,9 @@ export default new MLCreate({
       landingFeature4:'Salva al planeta',
       socialMedia:'¡Conactate por las redes sociales!',
       help:'Ayuda',
-      name:'nombre'
+      name:'nombre',
+      pwdChange:'Cambio de contraseña',
+      change:'Cambiar'
     }),
  
     // new MLanguage('portuguese').create({

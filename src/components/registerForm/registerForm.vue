@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- <h1>{{$v.form.id_proof}}</h1> -->
         <h2>{{$ml.with('VueJS').get('signUp')}}</h2>
         <form @submit.prevent="submit">
             <b-form-group> 
@@ -13,27 +12,9 @@
 
             <email-field :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
 
-            <b-form-group> 
-                <label for="password1" class="sr-only">Password</label>
-                <b-form-input @change="$v.form.password1.$touch()" :state="$v.form.password1.$dirty ? !$v.form.password1.$error : null" :placeholder="$ml.with('VueJS').get('password')" type="password" v-model="form.password1" name="password1" />
-                <b-form-invalid-feedback  v-if="$v.form.password1.$dirty&&$v.form.password1.$invalid">
-                    <div class="error" v-if="!$v.form.password1.required">Ingrese contraseña</div>
-                    <div class="error" v-if="!$v.form.password1.minLength">Al menos 8 caracteres</div>
-                </b-form-invalid-feedback>
-            </b-form-group>
-            
-            <b-form-group> 
-                <label for="password2" class="sr-only">Password</label>
-                <b-form-input @change="$v.form.password2.$touch()" :state="$v.form.password2.$dirty ? !$v.form.password2.$error : null" :placeholder="$ml.with('VueJS').get('password')" type="password" v-model="form.password2" name="password2" />
-                <b-form-invalid-feedback  v-if="$v.form.password2.$dirty&&$v.form.password2.$invalid">
-                    <div class="error" v-if="!$v.form.password2.sameAsPassword">No coincide con su contraseña</div>
-                </b-form-invalid-feedback>
-            </b-form-group>
+            <password-field :confirm="form.password1" :placeholder="$ml.with('VueJS').get('password')" :password="form.password1" @change="onPwd1Change"></password-field>
 
-
-
-
-
+            <password-field :isConfirm="true" :placeholder="$ml.with('VueJS').get('confirm')" :confirm="form.password1" :password="form.password2" @change="onPwd2Change"></password-field>
 
             <b-form-group>
                 <b-form-file
@@ -46,19 +27,12 @@
                     >
                 </b-form-file>
                 <div v-if="$v.form.id_proof.$invalid">
-                    <div v-if="$v.form.id_proof.required"><code><strong></strong>tipo de archivo no aceptable</code></div>
-                    <!-- <div v-if="$v.form.id_proof.filesValid"><code><strong></strong></code>tipo de archivo errado</div>  -->
-                    
+                    <div v-if="$v.form.id_proof.required"><code><strong></strong>tipo de archivo no aceptable</code></div>                    
                 </div>
                 <!-- <b-form-invalid-feedback>
                     <div class="error" v-if="!$v.form.id_proof.required">Cargue un comprobante</div>
                 </b-form-invalid-feedback> -->
             </b-form-group>
-
-
-
-
-
 
             <b-form-group>
                 <b-form-checkbox 
@@ -86,12 +60,7 @@
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
 import emailField from '@/components/emailField/emailField.vue';
 import formMixin from '@/mixins/form';
-
-// const filesValid = function(param){
-//     console.log(param)
-//     return false;
-// }
-
+import passwordField  from '@/components/passwordField/passwordField.vue';
 
 const filesValid = (value) => {
     let allowedTypes= ['image/jpeg', 'image/png', 'image/gif']
@@ -106,7 +75,8 @@ export default {
         lang:String
     },
     components:{
-        'email-field':emailField
+        'email-field':emailField,
+        'password-field': passwordField
     },
     data () {
         return {
@@ -121,11 +91,6 @@ export default {
             }
         }
     },
-    // computed: {
-    //    // ...mapState('account', ['status'])
-
-    // },
-
   validations: {
       form:{
             name: {
@@ -144,7 +109,6 @@ export default {
             },
             terms:{
                 accepted: sameAs(()=>true)
-
             },
             email:{
                 required,
@@ -161,6 +125,12 @@ export default {
         onChangeEmail (value) {
             this.form.email = value;
             this.$v.form.email.$touch()
+        },
+         onPwd1Change (value) {
+            this.form.password1 = value;
+        },
+         onPwd2Change (value) {
+            this.form.password2 = value;
         },
         onFileChange(e) {
             this.$v.form.id_proof.$touch();
@@ -188,17 +158,17 @@ export default {
 };
 </script>
 <style>
-.custom-file-input:lang(es) ~ .custom-file-label::after {
+    .custom-file-input:lang(es) ~ .custom-file-label::after {
 
-    content: "Buscar";
+        content: "Buscar";
 
-}
-.custom-file-input:lang(en) ~ .custom-file-label::after {
+    }
+    .custom-file-input:lang(en) ~ .custom-file-label::after {
 
-    content: "Browse";
+        content: "Browse";
 
-}
-.error{
-    font-size: 14px;
-}
+    }
+    .error{
+        font-size: 14px;
+    }
 </style>
