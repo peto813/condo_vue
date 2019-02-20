@@ -23,11 +23,7 @@ import formMixin from '@/mixins/form';
             email:{
                 type: String,
                 default: ''
-            },
-            // validationObject:{
-            //     type:Object,
-            // }
-        
+            }
         },
         methods:{
             emitChanges(value) {

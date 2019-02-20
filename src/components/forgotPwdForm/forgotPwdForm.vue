@@ -2,9 +2,9 @@
     <div>
         <h2>{{$ml.with('VueJS').get('pwdRecovery')}}</h2>
         <form @submit.prevent="submit">
-            <email-field :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
+            <email-field :email ="form.email" :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
             <div class="form-group">
-                <button class="btn btn-primary" :disabled="$v.form.$invalid">{{$ml.with('VueJS').get('recover')}}</button>
+                <button class="btn btn-primary" >{{$ml.with('VueJS').get('recover')}}</button>
             </div>
         </form>
     </div>
@@ -14,8 +14,6 @@
 import { required, email } from "vuelidate/lib/validators";
 import emailField from '@/components/emailField/emailField.vue';
 import formMixin from '@/mixins/form';
-//import axios from 'axios'
-//services
 import api from '@/services/api.js';
 export default {
     mixins:[formMixin, ],
