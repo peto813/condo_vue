@@ -47,7 +47,8 @@ export default new MLCreate({
       help:'Help',
       name:'name',
       pwdChange:'Password Change',
-      change:'Change'
+      change:'Change',
+      questions:'Questions'
     }),
     new MLanguage('Español').create({
       oldPwd: 'Contraseña anterior',
@@ -87,7 +88,8 @@ export default new MLCreate({
       help:'Ayuda',
       name:'nombre',
       pwdChange:'Cambio de contraseña',
-      change:'Cambiar'
+      change:'Cambiar',
+      questions:'Preguntas'
     }),
  
     // new MLanguage('portuguese').create({

@@ -14,9 +14,11 @@
 import { required, email } from "vuelidate/lib/validators";
 import emailField from '@/components/emailField/emailField.vue';
 import formMixin from '@/mixins/form';
-
+//import axios from 'axios'
+//services
+import api from '@/services/api.js';
 export default {
-    mixins:[formMixin],
+    mixins:[formMixin, ],
     components:{
         'email-field':emailField
     },
@@ -41,6 +43,15 @@ export default {
             this.$v.form.email.$touch()
         },
         submit() {
+            api.recoverPwd({email:this.form.email})
+                .then(function(a){
+                    console.log(a)
+                })
+                .catch(function(error){
+                    console.log(error)
+                    //return error;
+                })
+        }
           //this.v$.$touch();
         //   if (this.$v.form.$invalid) {
         //     this.submitStatus = 'ERROR'
@@ -51,7 +62,7 @@ export default {
         //       this.submitStatus = 'OK'
         //     }, 500)
         //   }
-        }
+        //}
         //...mapActions('account', ['login', 'logout']),
         // handleSubmit (e) {
         //     this.submitted = true;

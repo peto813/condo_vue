@@ -10,7 +10,7 @@
                 </b-form-invalid-feedback>
             </b-form-group>
 
-            <email-field :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
+            <email-field :email="form.email" :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
 
             <password-field :confirm="form.password1" :placeholder="$ml.with('VueJS').get('password')" :password="form.password1" @change="onPwd1Change"></password-field>
 
@@ -72,7 +72,8 @@ export default {
         [formMixin]
     ,
     props:{
-        lang:String
+        lang:String,
+        email:String
     },
     components:{
         'email-field':emailField,
@@ -84,7 +85,7 @@ export default {
                 name:'',
                 password1: '',
                 password2: '',
-                email: '',
+                email: this.$route.params.email,
                 id_proof: null,
                 terms: undefined,
                 submitStatus:undefined

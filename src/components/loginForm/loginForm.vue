@@ -2,7 +2,7 @@
     <div>
         <h2>{{$ml.with('VueJS').get('login')}}</h2>
         <form @submit.prevent="submit">
-            <email-field :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
+            <email-field :email="form.email" @change="onChangeEmail"></email-field>
             <password-field :placeholder="$ml.with('VueJS').get('password')" :password="form.password" @change="onPwdChange"></password-field>
 
             <div class="form-group">
@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import 'es6-promise/auto';
 
 import { required, email } from "vuelidate/lib/validators";
 import emailField from '@/components/emailField/emailField.vue';
@@ -35,7 +34,7 @@ export default {
             }
         }
     },
-  validations: {
+    validations: {
       form:{
             email:{
                 email,

@@ -9,9 +9,9 @@
         <b-col></b-col>
         <b-col cols="12" sm="auto" class="mb-5">
 
-      <b-form @submit.prevent="handleSubmit" inline>
-          <email-field size="lg" :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
-          <b-button id ="regButton" size="lg" variant="primary" class="ml-2">{{$ml.with('VueJS').get('getStarted')}}</b-button>
+      <b-form @submit.prevent="submit" inline>
+          <email-field :email="form.email" size="lg" :validationObject="$v.form.email" @change="onChangeEmail"></email-field>
+          <b-button type="submit" id ="regButton" size="lg" variant="primary" class="ml-2">{{$ml.with('VueJS').get('getStarted')}}</b-button>
       </b-form>
 
         </b-col>
@@ -23,7 +23,7 @@
 
 
     <hr >
-  <b-container >
+  <b-container>
     <b-row class="mt-3">
 
       <b-col cols="12" lg="3" xl="5" class="mb-4" >
@@ -83,7 +83,7 @@
 <script>
 import Vue from 'vue';
 import bJumbotron from 'bootstrap-vue/es/components/jumbotron/jumbotron';
-import carousel from '../../components/carousel/carousel.vue';
+import carousel from '@/components/carousel/carousel.vue';
 import footer from '@/components/footer/footer.vue';
 Vue.component('carousel-landing', carousel);
 Vue.component('b-jumbotron', bJumbotron);
@@ -125,26 +125,34 @@ export default {
             this.form.email = value;
             this.$v.form.email.$touch()
         },
-        submit() {
-          //this.v$.$touch();
-        //   if (this.$v.form.$invalid) {
-        //     this.submitStatus = 'ERROR'
-        //   } else {
-        //     // do your submit logic here
-        //     this.submitStatus = 'PENDING'
-        //     setTimeout(() => {
-        //       this.submitStatus = 'OK'
-        //     }, 500)
-        //   }
-        }
+        // submit() {
+        //   //this.v$.$touch();
+        // //   if (this.$v.form.$invalid) {
+        // //     this.submitStatus = 'ERROR'
+        // //   } else {
+        // //     // do your submit logic here
+        // //     this.submitStatus = 'PENDING'
+        // //     setTimeout(() => {
+        // //       this.submitStatus = 'OK'
+        // //     }, 500)
+        // //   }
+        // },
         //...mapActions('account', ['login', 'logout']),
-        // handleSubmit (e) {
-        //     this.submitted = true;
-        //     const { username, password } = this;
-        //     if (username && password) {
-        //         this.login({ username, password })
-        //     }
-        // }
+        submit (e) {
+          //e.preventDefault()
+          //alert('0a')
+          //const userId = '123'
+          console.log(this.$router)
+          //this.$router.push({ path: 'register', params: { email: '123' }})
+          //this.$router.push({ name: 'register', params: { email:'1111' } })
+          this.$router.push({ name: 'register', params: {email: this.form.email }});
+            //this.$route.push({ name: 'register', params: { email: '123' } })
+            // this.submitted = true;
+            // const { username, password } = this;
+            // if (username && password) {
+            //     this.login({ username, password })
+            // }
+        }
     }
 }
 </script>
@@ -155,6 +163,7 @@ export default {
     position: absolute;
       top: 1px;
       left: 380px;
+      z-index: 999;
 
   }
 }

@@ -21,6 +21,26 @@ import properties from './pages/properties/properties.vue';
 import register from './pages/register/register.vue';
 
 
+//vuex
+import 'es6-promise/auto';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  }
+})
+
+//axios (requests package)
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+Vue.use(VueAxios, axios);
+
 //components imports
 import navBar from '@/components/navBar/navBar.vue';
 import './ml';
@@ -62,7 +82,8 @@ const routes = [
   { path: '/payments', component: payments },
   { path: '/profile', component: profile },
   { path: '/properties', component: properties },
-  { path: '/register', component: register },
+  //{ path: '/register/:email', component: register },
+  {path: "/register", name:"register", component: register,  props: true},
   { path: '/forgot', component: forgot },
   { path: '*', redirect: '/' }
 ]
@@ -76,7 +97,8 @@ const router = new VueRouter({
 
 
 new Vue({
-	router, 
+  router,
+  store,
 	render: h => h(App),
 
 }).$mount('#app')

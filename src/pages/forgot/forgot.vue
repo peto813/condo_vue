@@ -19,10 +19,3 @@ import Vue from 'vue';
 Vue.component('forgot-pwd-form', forgotPwdForm);
 export default {}
 </script>
-
-<style scoped>
-.main {
-  padding-top: 80px;;
-}
-
-</style>

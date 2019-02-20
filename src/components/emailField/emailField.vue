@@ -1,23 +1,48 @@
 <template>
     <b-form-group> 
         <label for="email" class="sr-only"><span v-text="$ml.with('VueJS').get('email')"></span></label>
-        <b-form-input :size="size || ''" :state="validationObject.$dirty ? !validationObject.$invalid : null" @change="$emit('change', $event)" :placeholder="$ml.with('VueJS').get('email')" type="text"  name="email" /> 
-        <b-form-invalid-feedback  v-if="validationObject.$dirty&&validationObject.$invalid">
-            <div class="error" v-if="!validationObject.required">Enter Email</div>
-            <div class="error" v-if="!validationObject.email">Email address error</div>
+        <b-form-input :value="email" :size="size || ''" :state="$v.email.$dirty ? !$v.email.$invalid : null" @change="emitChanges" :placeholder="$ml.with('VueJS').get('email')" type="text"  name="email" /> 
+        <b-form-invalid-feedback>
+            <div class="error" v-if="!$v.email.required">Enter Email</div>
+            <div class="error" v-if="!$v.email.email">Email address error</div>
         </b-form-invalid-feedback>
     </b-form-group>
 </template>
 <script>
-    export default {            
+import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
+import formMixin from '@/mixins/form';
+    export default {   
+        mixins:
+            [formMixin]
+        ,        
         props: {
             size: {
                 type: String,
                 default: ''
             },
-            validationObject:{
-                type:Object,
+            email:{
+                type: String,
+                default: ''
+            },
+            // validationObject:{
+            //     type:Object,
+            // }
+        
+        },
+        methods:{
+            emitChanges(value) {
+                this.$emit('change', value);
+                this.$v.email.$touch();
+            }
+        },
+        validations: {
+            email: {
+                required,
+                //mustConfirmPwd:confirmValidator,
+                email
             }
         }
+
+
     }
 </script>
