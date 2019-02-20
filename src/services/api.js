@@ -5,19 +5,13 @@ const baseUrl = process.env.NODE_ENV==='production' ? 'https://condominioaldia.n
 
 
 
-function login( data){
-    let url = baseUrl + 'users/login/'
+function login(data){
+    let url = baseUrl + 'users/login/';
     return axios.post(url, data)
-        .then(function(response){
-            console.log(response)
-        })
-        .catch(function(error){
-            console.log(error)
-        })
 }
 
 function recoverPwd(data){
-    let url = baseUrl + 'users/password/reset/'
+    let url = baseUrl + 'users/password/reset/';
     return axios.post(url, data)
 }
 

@@ -1,10 +1,18 @@
 <template>
   <div id="navBar">
-  <b-navbar toggleable="md" type="dark" variant="dark" sticky>
+  <b-navbar toggleable="md" type="dark" variant="dark" fixed="top">
 
-    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+    <!-- <b-navbar-toggle target="nav_collapse"></b-navbar-toggle> -->
 
-    
+    <b-button
+        @click="showCollapse = !showCollapse"
+        type="button" 
+        aria-label="Toggle navigation"
+        aria-controls="nav_collapse"
+        aria-expanded="false"
+        class="navbar-toggler"><span class="navbar-toggler-icon"></span>
+    </b-button>
+
       <b-navbar-brand href="#">
         <router-link to="/">
         <div style="height:80px">
@@ -13,9 +21,9 @@
         </router-link>
       </b-navbar-brand>
     
-    <b-collapse is-nav id="nav_collapse">
+    <b-collapse  v-model="showCollapse"  is-nav id="nav_collapse">
 
-      <b-navbar-nav class="navLinkContainer">
+      <b-navbar-nav @click="showCollapse = !showCollapse" class="navLinkContainer">
         <b-nav-item href="#"><router-link to="/"><span v-text="$ml.with('VueJS').get('home')" /></router-link></b-nav-item>
         <b-nav-item class="anonymousLink" v-if="!userData.loggedIn" href="#"><router-link to="/register"><span v-text="$ml.with('VueJS').get('register')" /></router-link></b-nav-item>
         <b-nav-item class="anonymousLink" v-if="!userData.loggedIn" href="#"><router-link to="/login"><span v-text="$ml.with('VueJS').get('login')" /></router-link></b-nav-item>
@@ -73,6 +81,11 @@
   import 'vue-awesome/icons/user';
   export default {
     name: 'navBar',
+    data() {
+      return {
+        showCollapse: false
+      }
+    },
     components:{
       'v-icon': Icon
     },
