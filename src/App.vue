@@ -1,6 +1,7 @@
 <template>
 <div id="app">
   <nav-bar :user-data="userData"></nav-bar>
+  <alert :show="true" type="info">this is an alert</alert>
   <transition
           name="fade"
           mode="out-in"
@@ -10,7 +11,11 @@
 </div>
 </template>
 <script>
+import alert from '@/components/alert/alert.vue';
   export default{
+    components:{
+      alert,
+    },
     data: function() {
          return {
             userData: {
@@ -18,8 +23,6 @@
               first_name:'Einstein',
               loggedIn : false
             }
-            //leadMsg :'Gestion y consulta',
-            //msg: 'Tu informacion a la mano'
           }
       }
   }
