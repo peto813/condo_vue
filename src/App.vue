@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <nav-bar :user-data="userData"></nav-bar>
-  <alert :show="true" type="info">this is an alert</alert>
+  <alert :show="alertVisible" type="info">this is an alert</alert>
   <transition
           name="fade"
           mode="out-in"
@@ -12,19 +12,24 @@
 </template>
 <script>
 import alert from '@/components/alert/alert.vue';
+import { mapState } from 'vuex'
   export default{
     components:{
       alert,
     },
     data: function() {
          return {
-            userData: {
-              role:undefined,
-              first_name:'Einstein',
-              loggedIn : false
-            }
+            // userData: {
+            //   role:undefined,
+            //   first_name:'Einstein',
+            //   loggedIn : false
+            // }
           }
-      }
+      },
+  computed: mapState([
+    'alertVisible',
+    'userData'
+  ])
   }
 </script>
 <style scoped>

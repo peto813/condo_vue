@@ -27,11 +27,14 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
-    count: 0
+    alertVisible:false,
+    userData:{
+      loggedIn:false
+    }
   },
   mutations: {
-    increment (state) {
-      state.count++
+    showAlert (state) {
+      state.alertVisible = true;
     }
   }
 })
