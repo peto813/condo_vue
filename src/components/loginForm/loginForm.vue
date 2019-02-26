@@ -19,7 +19,8 @@ import { required, email } from "vuelidate/lib/validators";
 import emailField from '@/components/emailField/emailField.vue';
 import formMixin from '@/mixins/form';
 import passwordField  from '@/components/passwordField/passwordField.vue';
-
+// import api from '@/services/api.js';
+// import { mapMutations } from 'vuex'
 export default {
     mixins: [formMixin],
     components:{
@@ -55,16 +56,7 @@ export default {
             this.form.password = value;
         },
         submit() {
-          //this.v$.$touch();
-        //   if (this.$v.form.$invalid) {
-        //     this.submitStatus = 'ERROR'
-        //   } else {
-        //     // do your submit logic here
-        //     this.submitStatus = 'PENDING'
-        //     setTimeout(() => {
-        //       this.submitStatus = 'OK'
-        //     }, 500)
-        //   }
+
         }
         //...mapActions('account', ['login', 'logout']),
         // handleSubmit (e) {

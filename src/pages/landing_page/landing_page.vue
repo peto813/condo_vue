@@ -142,7 +142,6 @@ export default {
           //e.preventDefault()
           //alert('0a')
           //const userId = '123'
-          console.log(this.$router)
           //this.$router.push({ path: 'register', params: { email: '123' }})
           //this.$router.push({ name: 'register', params: { email:'1111' } })
           this.$router.push({ name: 'register', params: {email: this.form.email }});

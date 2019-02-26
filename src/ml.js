@@ -10,6 +10,8 @@ export default new MLCreate({
   save: process.env.NODE_ENV === 'production',
   languages: [
     new MLanguage('English').create({
+      emailResetSuccess:'An email with instrucions has been sent',
+      emailError:'E-mail error!',
       oldPwd: 'Old Password',
       confirm:'Confirm',
       login: 'Login',
@@ -51,6 +53,8 @@ export default new MLCreate({
       questions:'Questions'
     }),
     new MLanguage('Español').create({
+      emailResetSuccess:'Se ha enviado un correo electronico con instrucciones',
+      emailError:'Error en correo electronico!',
       oldPwd: 'Contraseña anterior',
       confirm:'Confirmar',
       login: 'Ingresar',

@@ -1,6 +1,9 @@
      
 
 module.exports = {
+  configureWebpack: {
+    devtool: 'source-map'
+  },
   transpileDependencies: [
     /\bvue-awesome\b/
   ],

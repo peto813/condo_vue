@@ -24,17 +24,25 @@ import register from './pages/register/register.vue';
 //vuex
 import 'es6-promise/auto';
 import Vuex from 'vuex';
+
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
-    alertVisible:false,
+    alert:{
+      visible:false,
+      type:'info',
+      message:'',
+    },
     userData:{
       loggedIn:false
     }
   },
   mutations: {
-    showAlert (state) {
-      state.alertVisible = true;
+    showAlert (state, messageObject) {
+      state.alert= messageObject;
+    },
+    hideAlert (state) {
+      state.alertVisible = false;
     }
   }
 })

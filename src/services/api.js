@@ -10,12 +10,41 @@ function login(data){
     return axios.post(url, data)
 }
 
+function register(form){
+  let url = baseUrl + 'condos/registration/';
+  let formData = new FormData();
+  // return axios.post(url, data)
+  for ( let key in form ) {
+    formData.append(key, form[key]);
+  }
+  
+  return axios.post( url,
+      formData,
+      {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+    }
+    )
+    // .then(function(){
+    //   console.log('SUCCESS!!');
+    // })
+    // .catch(function(){
+    //   console.log('FAILURE!!');
+    // }
+
+
+  
+
+}
+
 function recoverPwd(data){
     let url = baseUrl + 'users/password/reset/';
     return axios.post(url, data)
 }
 
 let api = {
+    register,
     login,
     recoverPwd,
   }

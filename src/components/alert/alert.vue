@@ -11,6 +11,7 @@
         font-weight: bold;
         font-size:20px;
         transition:all 1s ease-in;
+        z-index: 100;
     }
 </style>
 

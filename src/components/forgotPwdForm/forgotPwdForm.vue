@@ -15,6 +15,7 @@ import { required, email } from "vuelidate/lib/validators";
 import emailField from '@/components/emailField/emailField.vue';
 import formMixin from '@/mixins/form';
 import api from '@/services/api.js';
+import { mapMutations } from 'vuex'
 export default {
     mixins:[formMixin, ],
     components:{
@@ -36,39 +37,32 @@ export default {
       }
     },
     methods: {
+        ...mapMutations([
+            'showAlert'
+        ]),
         onChangeEmail (value) {
             this.form.email = value;
             this.$v.form.email.$touch()
         },
         submit() {
             api.recoverPwd({email:this.form.email})
-                .then(function(a){
-                    console.log(a)
+                .then(response => {
+                    this.showAlert({
+                        message:this.$ml.with('VueJS').get('emailResetSuccess'),
+                        type:'success',
+                        visible:true
+                    });
+                    this.$router.push('/login');
                 })
-                .catch(function(error){
+                .catch(error =>{
                     console.log(error)
-                    //return error;
+                    this.showAlert({
+                        message:this.$ml.with('VueJS').get('emailError'),
+                        type:'danger',
+                        visible:true
+                    });
                 })
         }
-          //this.v$.$touch();
-        //   if (this.$v.form.$invalid) {
-        //     this.submitStatus = 'ERROR'
-        //   } else {
-        //     // do your submit logic here
-        //     this.submitStatus = 'PENDING'
-        //     setTimeout(() => {
-        //       this.submitStatus = 'OK'
-        //     }, 500)
-        //   }
-        //}
-        //...mapActions('account', ['login', 'logout']),
-        // handleSubmit (e) {
-        //     this.submitted = true;
-        //     const { username, password } = this;
-        //     if (username && password) {
-        //         this.login({ username, password })
-        //     }
-        // }
     }
 };
 </script>

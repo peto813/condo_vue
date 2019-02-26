@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <nav-bar :user-data="userData"></nav-bar>
-  <alert :show="alertVisible" type="info">this is an alert</alert>
+  <alert :show="alert.visible" :type="alert.type">{{alert.message}}</alert>
   <transition
           name="fade"
           mode="out-in"
@@ -26,10 +26,16 @@ import { mapState } from 'vuex'
             // }
           }
       },
-  computed: mapState([
-    'alertVisible',
-    'userData'
-  ])
+      computed:{
+        ...mapState([
+        'alert',
+        'userData'
+        ])      
+      }
+    // computed: mapState([
+    //   'alertVisible',
+    //   'userData'
+    // ])
   }
 </script>
 <style scoped>
