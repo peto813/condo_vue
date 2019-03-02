@@ -1,6 +1,6 @@
 <template>
     <div id="alertComponent">
-        <b-alert :show="show" :variant="type" dismissible fade><slot></slot></b-alert>
+        <b-alert v-model="show" :variant="type" dismissible fade><slot></slot></b-alert>
     </div>
 </template>
 <style scoped>

@@ -55,9 +55,8 @@ export default {
                     this.$router.push('/login');
                 })
                 .catch(error =>{
-                    console.log(error)
                     this.showAlert({
-                        message:this.$ml.with('VueJS').get('emailError'),
+                        message:error.response.data.email[0],
                         type:'danger',
                         visible:true
                     });

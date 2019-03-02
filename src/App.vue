@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <nav-bar :user-data="userData"></nav-bar>
-  <alert :show="alert.visible" :type="alert.type">{{alert.message}}</alert>
+  <alert class="alertComponent" :show="alert.visible" :type="alert.type">{{alert.message}}</alert>
   <transition
           name="fade"
           mode="out-in"

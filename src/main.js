@@ -19,14 +19,37 @@ import payments from './pages/payments/payments.vue';
 import profile from './pages/profile/profile.vue';
 import properties from './pages/properties/properties.vue';
 import register from './pages/register/register.vue';
-
+import dashboard from './pages/dashboard/dashboard.vue';
+import createPersistedState from 'vuex-persistedstate'
 
 //vuex
 import 'es6-promise/auto';
 import Vuex from 'vuex';
 
+const UserModule = {
+  state: {
+      a: 'a'
+  },
+  mutations: {
+      updateA(state) {
+          state.a += 'a';
+      }
+  }
+}
+
+
 Vue.use(Vuex);
 const store = new Vuex.Store({
+  modules: {
+    moduleA: UserModule,
+    //moduleB: moduleB
+},
+  plugins: [
+    createPersistedState({
+      key: 'vuex_a',
+      paths: ['moduleA']
+    })
+  ],
   state: {
     alert:{
       visible:false,
@@ -35,6 +58,12 @@ const store = new Vuex.Store({
     },
     userData:{
       loggedIn:false
+    }
+  },
+  getters: {
+    token (state) {
+      alert('a')
+      return state.token
     }
   },
   mutations: {
@@ -93,7 +122,7 @@ const routes = [
   { path: '/payments', component: payments },
   { path: '/profile', component: profile },
   { path: '/properties', component: properties },
-  //{ path: '/register/:email', component: register },
+  { path: '/dashboard/', component: dashboard },
   {path: "/register", name:"register", component: register,  props: true},
   { path: '/forgot', component: forgot },
   { path: '*', redirect: '/' }
