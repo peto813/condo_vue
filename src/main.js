@@ -26,13 +26,25 @@ import createPersistedState from 'vuex-persistedstate'
 import 'es6-promise/auto';
 import Vuex from 'vuex';
 
-const UserModule = {
+//INTERCEPTORS
+
+
+
+
+//VUEX MODULE
+const userModule = {
   state: {
-      a: 'a'
+      user:{},
+      token:undefined
   },
   mutations: {
-      updateA(state) {
-          state.a += 'a';
+      updateUser(state, userObject) {
+        state.user=  userObject.user;
+        state.token =userObject.key;
+      },
+      logOut (state) {
+        state.user =  {};
+        state.token  =undefined;       
       }
   }
 }
@@ -41,13 +53,14 @@ const UserModule = {
 Vue.use(Vuex);
 const store = new Vuex.Store({
   modules: {
-    moduleA: UserModule,
-    //moduleB: moduleB
-},
+    userData: userModule,
+  },
+  //PERSISTED STATE FOR VUE
   plugins: [
     createPersistedState({
-      key: 'vuex_a',
-      paths: ['moduleA']
+      key: 'vuex_user',
+      storage: window.localStorage,
+      paths: ['userData']
     })
   ],
   state: {
@@ -56,16 +69,16 @@ const store = new Vuex.Store({
       type:'info',
       message:'',
     },
-    userData:{
-      loggedIn:false
-    }
+    // userData:{
+    //   loggedIn:false
+    // }
   },
-  getters: {
-    token (state) {
-      alert('a')
-      return state.token
-    }
-  },
+  // getters: {
+  //   token (state) {
+  //     alert('a')
+  //     return state.token
+  //   }
+  // },
   mutations: {
     showAlert (state, messageObject) {
       state.alert= messageObject;

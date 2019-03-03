@@ -25,14 +25,14 @@
 
       <b-navbar-nav @click="showCollapse = !showCollapse" class="navLinkContainer">
         <b-nav-item href="#"><router-link to="/"><span v-text="$ml.with('VueJS').get('home')" /></router-link></b-nav-item>
-        <b-nav-item class="anonymousLink" v-if="!userData.loggedIn" href="#"><router-link to="/register"><span v-text="$ml.with('VueJS').get('register')" /></router-link></b-nav-item>
-        <b-nav-item class="anonymousLink" v-if="!userData.loggedIn" href="#"><router-link to="/login"><span v-text="$ml.with('VueJS').get('login')" /></router-link></b-nav-item>
-        <b-nav-item class="anonymousLink" v-if="!userData.loggedIn" href="#"><router-link to="/faq"><span v-text="$ml.with('VueJS').get('faq')" /></router-link></b-nav-item>
+        <b-nav-item class="anonymousLink" v-if="!userData.token" href="#"><router-link to="/register"><span v-text="$ml.with('VueJS').get('register')" /></router-link></b-nav-item>
+        <b-nav-item class="anonymousLink" v-if="!userData.token" href="#"><router-link to="/login"><span v-text="$ml.with('VueJS').get('login')" /></router-link></b-nav-item>
+        <b-nav-item class="anonymousLink" v-if="!userData.token" href="#"><router-link to="/faq"><span v-text="$ml.with('VueJS').get('faq')" /></router-link></b-nav-item>
 
         <!--condos-->
         <b-nav-item class="condoLink" v-if="canViewInmuebles" href="#"><router-link to="/properties"><span v-text="$ml.with('VueJS').get('properties')" /></router-link></b-nav-item>
         <b-nav-item class="condoLink" v-if="canViewInmuebles" href="#"><router-link to="/accounts"><span v-text="$ml.with('VueJS').get('accounts')" /></router-link></b-nav-item>
-        <b-nav-item class="condoLink" v-if="userData.role=='condo'" href="#"><router-link to="/invoices"><span v-text="$ml.with('VueJS').get('invoices')" /></router-link></b-nav-item>
+        <b-nav-item class="condoLink" v-if="userData.user.role=='condo'" href="#"><router-link to="/invoices"><span v-text="$ml.with('VueJS').get('invoices')" /></router-link></b-nav-item>
 
         <!--resident/rentee-->
         <b-nav-item class="condoLink" v-if="canViewPayments" href="#"><router-link to="/payments"><span v-text="$ml.with('VueJS').get('payments')" /></router-link></b-nav-item>
@@ -94,18 +94,18 @@
         this.$router.push('/profile')
       }
     },
-      props: {
+    props: {
       userData: Object
     },
     computed: {
       canViewInmuebles () {
-        let userIsCondo = (this.userData.role=='condo');
-        let userIsResident = (this.userData.role=='resident');
+        let userIsCondo = (this.userData.user.role=='condo');
+        let userIsResident = (this.userData.user.role=='resident');
         return userIsCondo || userIsResident;
       },
       canViewPayments () {
-        let userIsRentee = (this.userData.role=='rentee');
-        let userIsResident = (this.userData.role=='resident');
+        let userIsRentee = (this.userData.user.role=='rentee');
+        let userIsResident = (this.userData.user.role=='resident');
         return userIsRentee || userIsResident;
       }
     }

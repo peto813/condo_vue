@@ -20,7 +20,6 @@ import emailField from '@/components/emailField/emailField.vue';
 import formMixin from '@/mixins/form';
 import passwordField  from '@/components/passwordField/passwordField.vue';
 import api from '@/services/api.js';
-import userService from '@/services/user_service.js';
 import { mapMutations } from 'vuex'
 export default {
     mixins: [formMixin],
@@ -51,7 +50,8 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'showAlert'
+            'showAlert',
+            'updateUser'
         ]),
         toggleEye(val){
             this.showPwd =val;
@@ -66,7 +66,7 @@ export default {
         submit() {
             api.logIn(this.form)
                 .then(response => {
-                    userService.setCredentials(response.data);
+                    this.updateUser(response.data)
                     this.$router.push('/dashboard');
                 })
                 .catch(error =>{
