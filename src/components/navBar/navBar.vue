@@ -58,13 +58,13 @@
           EN</b-dropdown-item>
         </b-nav-item-dropdown>
 
-        <b-nav-item-dropdown right v-if="userData.loggedIn"> 
+        <b-nav-item-dropdown right v-if="userData.token"> 
             <!-- Using button-content slot -->
           <template  slot="button-content">
-            <em ><v-icon name="user" scale="1.5"/> {{userData.first_name}}</em>
+            <em ><v-icon name="user" scale="1.5"/> {{userData.user.first_name||userData.user.email}}</em>
           </template>
           <b-dropdown-item href="#" v-on:click="goToProfile"><span v-text="$ml.with('VueJS').get('profile')" /></b-dropdown-item>
-          <b-dropdown-item href="#"><span v-text="$ml.get('signOut')" /></b-dropdown-item>
+          <b-dropdown-item href="#" v-on:click="logOut"><span v-text="$ml.get('signOut')" /></b-dropdown-item>
         </b-nav-item-dropdown> 
       </b-navbar-nav>
 
@@ -92,6 +92,10 @@
     methods: {
       goToProfile () {
         this.$router.push('/profile')
+      },
+      logOut () {
+        alert('need logout method or dispatch')
+        //this.$router.push('/profile')
       }
     },
     props: {

@@ -26,10 +26,9 @@ import createPersistedState from 'vuex-persistedstate'
 import 'es6-promise/auto';
 import Vuex from 'vuex';
 
-//INTERCEPTORS
-
-
-
+function userIsloggedIn(){
+  return localStorage.getItem('vuex_user') ? JSON.parse(localStorage.getItem('vuex_user')).userData.token : undefined;
+}
 
 //VUEX MODULE
 const userModule = {
@@ -125,17 +124,39 @@ Vue.component('nav-bar', navBar);
 // either be an actual component constructor created via
 // `Vue.extend()`, or just a component options object.
 // We'll talk about nested routes later.
+function loggedInRoute(to, from, next){
+
+  if (userIsloggedIn()) {
+    next()
+  } else {
+    next({
+      path: '/'
+    })
+  }
+}
+
+function anonRoute(to, from, next){
+
+  if (!userIsloggedIn()) {
+    next()
+  } else {
+    next({
+      path: '/dashboard'
+    })
+  }
+}
+
 const routes = [
-  { path: '/', component: landingPage },
+  { path: '/', component: landingPage, beforeEnter:anonRoute },
   { path: '/about', component: aboutUs },
   { path: '/accounts', component: accounts },
   { path: '/faq', component: faq },
-  { path: '/invoices', component: invoices },
+  { path: '/invoices', component: invoices, beforeEnter:loggedInRoute },
   { path: '/login', component: login },
-  { path: '/payments', component: payments },
-  { path: '/profile', component: profile },
-  { path: '/properties', component: properties },
-  { path: '/dashboard/', component: dashboard },
+  { path: '/payments', component: payments, beforeEnter:loggedInRoute },
+  { path: '/profile', component: profile, beforeEnter:loggedInRoute },
+  { path: '/properties', component: properties, beforeEnter:loggedInRoute },
+  { path: '/dashboard/', component: dashboard, beforeEnter:loggedInRoute },
   {path: "/register", name:"register", component: register,  props: true},
   { path: '/forgot', component: forgot },
   { path: '*', redirect: '/' }
@@ -148,6 +169,11 @@ const router = new VueRouter({
   routes // short for `routes: routes`
 })
 
+// router.beforeEach((to, from, next) => {
+//   console.log(to)
+//   console.log(from)
+//   console.log(next)
+// })
 
 new Vue({
   router,
