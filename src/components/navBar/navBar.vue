@@ -64,7 +64,7 @@
             <em ><v-icon name="user" scale="1.5"/> {{userData.user.first_name||userData.user.email}}</em>
           </template>
           <b-dropdown-item href="#" v-on:click="goToProfile"><span v-text="$ml.with('VueJS').get('profile')" /></b-dropdown-item>
-          <b-dropdown-item href="#" v-on:click="logOut"><span v-text="$ml.get('signOut')" /></b-dropdown-item>
+          <b-dropdown-item href="#" v-on:click="logOutUser"><span v-text="$ml.get('signOut')" /></b-dropdown-item>
         </b-nav-item-dropdown> 
       </b-navbar-nav>
 
@@ -79,6 +79,9 @@
   //import 'vue-awesome/icons/User';
   import Icon from 'vue-awesome/components/Icon';
   import 'vue-awesome/icons/user';
+  import api from '@/services/api.js';
+  import { mapMutations } from 'vuex'
+
   export default {
     name: 'navBar',
     data() {
@@ -86,16 +89,33 @@
         showCollapse: false
       }
     },
+
     components:{
       'v-icon': Icon
     },
     methods: {
+      ...mapMutations([
+            'logOut'
+      ]),
       goToProfile () {
         this.$router.push('/profile')
       },
-      logOut () {
-        alert('need logout method or dispatch')
-        //this.$router.push('/profile')
+      logOutUser () {
+        
+
+            api.logOut()
+                .then(response => {
+                    this.logOut();
+                     this.$router.push('/');
+                })
+                .catch(error =>{
+                  this.logOut();
+                    this.showAlert({
+                        message:error.response.data.non_field_errors[0],
+                        type:'danger',
+                        visible:true
+                    });
+                })
       }
     },
     props: {

@@ -46,16 +46,17 @@ function recoverPwd(data){
 }
 
 
-// function logOut(data){
-//   let url = baseUrl + 'users/password/reset/';
-//   return axios.post(url, data)
-// }
+function logOut(){
+  let url = baseUrl + 'users/logout/';
+  return axios.post(url, {})
+}
 
 
 let api = {
     register,
     logIn,
     recoverPwd,
+    logOut
   }
 
 

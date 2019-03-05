@@ -1,9 +1,9 @@
 <template>
-    <b-container>
-        <div v-if="Math.random() > 0.5">
-            <!-- <condo-dashboard></condo-dashboard> -->
+    <b-container fluid>
+        <div v-if="userData.user.role=='condo'">
+            <condo-dashboard></condo-dashboard>
         </div>
-         <div v-else-if="Math.random() <= 0.5">
+         <div v-else-if="userData.user.role=='resident'">
             <!-- <resident-dashboard></resident-dashboard> -->
         </div>       
         <div v-else>
@@ -12,8 +12,19 @@
     </b-container>
 </template>
 <script>
+import { mapState } from 'vuex'
+import condoDashboard from '@/components/condoDashboard/condoDashboard.vue';
+
 export default {
-    
+    components:{
+      condoDashboard,
+    },
+    computed:{
+        ...mapState([
+        'alert',
+        'userData',
+        ])      
+    }
 }
 </script>
 

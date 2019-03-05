@@ -30,7 +30,6 @@ import { mapState } from 'vuex'
         ...mapState([
         'alert',
         'userData',
-        //'userModule'
         ])      
       }
     // computed: mapState([
