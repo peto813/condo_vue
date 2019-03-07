@@ -157,7 +157,7 @@ const routes = [
   { path: '/profile', component: profile, beforeEnter:loggedInRoute },
   { path: '/properties', component: properties, beforeEnter:loggedInRoute },
   { path: '/dashboard/', component: dashboard, beforeEnter:loggedInRoute },
-  {path: "/register", name:"register", component: register,  props: true},
+  { path: "/register", name:"register", component: register,  props: true},
   { path: '/forgot', component: forgot },
   { path: '*', redirect: '/' }
 ]

@@ -19,6 +19,16 @@ export default {
     components:{
       condoDashboard,
     },
+    beforeRouteEnter (to, from, next) { 
+        console.log(to, from, next)
+        // next(vm => { 
+        //     // access to component's instance using `vm` . this is done because this navigation guard is called before the component is created.
+
+        //     vm.initializeSearch();
+        //     next();
+        // }) 
+        next()
+    },
     computed:{
         ...mapState([
         'alert',

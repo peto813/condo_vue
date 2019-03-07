@@ -21,7 +21,8 @@
         </b-col>
     </b-row>
   </b-jumbotron>
-  <board></board>
+    <board :count="10"></board>
+  
 
 
 </div>
