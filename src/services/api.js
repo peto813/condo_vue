@@ -34,7 +34,7 @@ function register(form){
       formData,
       {
       headers: {
-          'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data'
       }
     }
     )
@@ -51,12 +51,37 @@ function logOut(){
   return axios.post(url, {})
 }
 
+function getCurrencies(){
+  let url = baseUrl+'currencies/';
+  console.log(url)
+  return axios.get(url)
+}
+
+const getAccountsUrl="http://localhost:8000/condos/accounts/";
+
+
+function createAccount(data){
+  let url = getAccountsUrl;
+  return axios.post(url, data)
+}
+
+function getProfile(){
+  // this function requests the user profile from backend
+  // returns an object of form {user: {}, profile: {}}
+  let url = baseUrl + 'users/profile/';
+  return axios.get(url)
+}
 
 let api = {
     register,
     logIn,
     recoverPwd,
-    logOut
+    logOut,
+    baseUrl,
+    getAccountsUrl,
+    createAccount,
+    getCurrencies,
+    getProfile
   }
 
 

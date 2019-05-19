@@ -3,8 +3,8 @@
         <div v-if="!editing">
             <p>{{note}}</p>
             <span v-show="hover"  class="noteButtons">
-                <b-button @click.stop="edit">EDIT</b-button>
-                <b-button @click.stop="remove">X</b-button>
+                <b-button :size="buttonSize()" @click.stop="edit">EDIT</b-button>
+                <b-button :size="buttonSize()" @click.stop="remove">X</b-button>
             </span>
         </div>
         <div v-else>
@@ -19,8 +19,6 @@ export default {
         id:Number,
         note:String,
         pclass:String
-        //top:String,
-        //left:String
     },
     data () {
         return {
@@ -28,13 +26,16 @@ export default {
             noteStyle:{},
             newText:'',
             hover:false,
+            angle
         }
     },
+    created() {
+        window.addEventListener("resize", this.myEventHandler);
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.myEventHandler);
+    },
     beforeMount:function(){
-
-
-
-
         this.$nextTick(function(){
             
             let parent= this.$el.parentElement;
@@ -52,10 +53,11 @@ export default {
                 this.$refs.newText.select();
             }
     },
-    computed:{
-
-    },
     methods:{
+        myEventHandler(e) {
+            console.log(e)
+        },
+        buttonSize: ()=>Math.max(document.documentElement.clientWidth, window.innerWidth || 0) > 768 ? '': 'sm',
         handleMouseDown(event){
             let note = this.$el;
             let shiftX = event.clientX - note.getBoundingClientRect().left;
@@ -145,6 +147,14 @@ div.note {
     overflow: hidden;
 }
 
+span.noteButtons, button.noteButtons{
+    position: absolute;
+    top:110px;
+    left:60px;
+}
+
+
+
 @media only screen and (min-width: 768px) {
     div.note {
         height: 250px;
@@ -156,17 +166,22 @@ div.note {
         box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
         overflow: hidden;
     }
+
+
+    span.noteButtons, button.noteButtons{
+        position: absolute;
+        top:190px;
+        left:130px;
+    }
+
+
 }
 
 
 div.note:active {
     cursor: -webkit-grabbing;
 }
-span.noteButtons, button.noteButtons{
-    position: absolute;
-    top:190px;
-    left:130px;
-}
+
 div.note p {
     margin: 0;
     font-size:22px;

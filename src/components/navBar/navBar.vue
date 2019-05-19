@@ -80,6 +80,7 @@
   import Icon from 'vue-awesome/components/Icon';
   import 'vue-awesome/icons/user';
   import api from '@/services/api.js';
+  import user_service from '@/services/user.js';
   import { mapMutations } from 'vuex'
 
   export default {
@@ -93,9 +94,33 @@
     components:{
       'v-icon': Icon
     },
+    mounted: function () {
+      this.$nextTick(function () {
+        if(this.userData.token){
+            api.getProfile()
+                .then(response => {
+                    this.updateUser(response.data);
+                })
+                .catch(error =>{
+                    this.showAlert({
+                        message:error.response.data.non_field_errors[0],
+                        type:'danger',
+                        visible:true
+                    });
+                })
+        }
+        
+
+      //   //console.log(this.$store.state.userData.token)
+      //   //let token=localStorage.getItem('vuex_user');
+      //   // Code that will run only after the
+      //   // entire view has been rendered
+      })
+    },
     methods: {
       ...mapMutations([
-            'logOut'
+            'logOut',
+            'updateUser'
       ]),
       goToProfile () {
         this.$router.push('/profile')

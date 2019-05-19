@@ -1,7 +1,7 @@
 <template>
     <b-container fluid>
         <div v-if="userData.user.role=='condo'">
-            <condo-dashboard></condo-dashboard>
+            <!-- <condo-dashboard></condo-dashboard> -->
         </div>
          <div v-else-if="userData.user.role=='resident'">
             <!-- <resident-dashboard></resident-dashboard> -->
@@ -20,7 +20,7 @@ export default {
       condoDashboard,
     },
     beforeRouteEnter (to, from, next) { 
-        console.log(to, from, next)
+        //console.log(to, from, next)
         // next(vm => { 
         //     // access to component's instance using `vm` . this is done because this navigation guard is called before the component is created.
 

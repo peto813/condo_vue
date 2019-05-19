@@ -21,6 +21,7 @@ import properties from './pages/properties/properties.vue';
 import register from './pages/register/register.vue';
 import dashboard from './pages/dashboard/dashboard.vue';
 import createPersistedState from 'vuex-persistedstate'
+import user_service from '@/services/user.js';
 
 //vuex
 import 'es6-promise/auto';
@@ -30,20 +31,26 @@ function userIsloggedIn(){
   return localStorage.getItem('vuex_user') ? JSON.parse(localStorage.getItem('vuex_user')).userData.token : undefined;
 }
 
+
 //VUEX MODULE
 const userModule = {
   state: {
       user:{},
-      token:undefined
+      token:undefined,
+      profile: {}
   },
   mutations: {
       updateUser(state, userObject) {
         state.user=  userObject.user;
-        state.token =userObject.key;
+        state.profile = userObject.profile;
+        if(userObject.key){
+          state.token = userObject.key;
+        }
       },
-      logOut (state) {
+      logOut(state) {
         state.user =  {};
-        state.token  =undefined;       
+        state.profile = {}
+        state.token  = undefined;
       }
   }
 }
